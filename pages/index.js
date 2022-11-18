@@ -25,7 +25,7 @@ export default function Home() {
   const [state, setState] = useState("NOW_SHOWING");
 
   const [{ data, loading, error }, refetch] = useAxios(
-    "http://localhost:3000/api/"
+    "https://imaginetown.vercel.app/api"
   );
   if (loading) return <p>loding...</p>;
   if (error) return <p>Error...</p>;
