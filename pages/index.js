@@ -25,7 +25,7 @@ export default function Home() {
   const [state, setState] = useState("NOW_SHOWING");
 
   const [{ data, loading, error }, refetch] = useAxios(
-    "https://imaginetown.vercel.app/api"
+    "http://localhost:3000/api"
   );
   if (loading) return <p>loding...</p>;
   if (error) return <p>Error...</p>;
@@ -71,12 +71,13 @@ export default function Home() {
         </Stack>
       </AppBar>
       <Container>
-        <Stack p={3}
+        <Stack
+          p={3}
           sx={{
             backgroundColor: "#FFFFFF1A",
           }}
         >
-          <Stack direction="row" gap={1} justifyContent="center">
+          <Stack direction="row" p={2} justifyContent="center">
             <Button
               onClick={() => setState("NOW_SHOWING")}
               sx={{
@@ -102,17 +103,10 @@ export default function Home() {
             </Button>
           </Stack>
           <Box>
-            <Stack
-              direction="row"
-              gap={4}
-              justifyContent="center"
-              flexWrap="wrap"
-            >
+            <Stack direction="row" gap={4} flexWrap="wrap">
               {data[state].map((idx) => {
                 return (
-                  <Stack 
-                  width={250} 
-                  key={idx.id}>
+                  <Stack width={250} key={idx.id}>
                     <Stack>
                       <img
                         src={idx.image}
@@ -123,32 +117,34 @@ export default function Home() {
                         }}
                       />
                     </Stack>
-                    <Stack>
+                    <Stack marginTop={1} marginBottom={1}>
                       <MovieTitle>{idx.date}</MovieTitle>
                     </Stack>
                     <Stack>
                       <Dresciption>{idx.name.en}</Dresciption>
                     </Stack>
                     <Stack>
-                      <Dresciption>{idx.name.th}</Dresciption>
+                      {/* <Dresciption>{idx.name.th}</Dresciption> */}
                     </Stack>
-                    <Stack direction="row" gap={1}>
-                      <Chip
-                        sx={{
-                          background: "#E1E1E7",
-                          borderRadius: 10,
-                          color: "#838388",
-                        }}
-                        label={idx.type}
-                      />
-                      <Chip
-                        sx={{
-                          background: "#E1E1E7",
-                          borderRadius: 10,
-                          color: "#838388",
-                        }}
-                        label={idx.duration}
-                      />
+                    <Stack marginTop={1}>
+                      <Stack direction="row" gap={1}>
+                        <Chip
+                          sx={{
+                            background: "#E1E1E7",
+                            borderRadius: 10,
+                            color: "#838388",
+                          }}
+                          label={idx.type}
+                        />
+                        <Chip
+                          sx={{
+                            background: "#E1E1E7",
+                            borderRadius: 10,
+                            color: "#838388",
+                          }}
+                          label={idx.duration}
+                        />
+                      </Stack>
                     </Stack>
                   </Stack>
                 );
