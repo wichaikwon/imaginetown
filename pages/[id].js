@@ -19,7 +19,7 @@ export default function MovieDetail() {
   const id = router.query.id;
   const [value, setValue] = useState(null);
   const [{ data, loading, error }, refetch] = useAxios(
-    `http://localhost:3000/api/${id}`
+    `https://imaginetown.vercel.app/api/${id}`
   );
   if (loading) return <p>loding...</p>;
   if (error) return <p>Error...</p>;
