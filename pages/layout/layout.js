@@ -41,6 +41,7 @@ const Layout = ({ children }) => {
                                 <Typography>
                                     EN
                                 </Typography>
+                                <KeyboardArrowDownIcon/>
                             </Stack>
                         </Stack>
                     </Stack>

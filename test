@@ -1,0 +1,7 @@
+condition ? A : B
+
+if (condition) {
+    return A
+} else {
+    return B
+}

@@ -7,6 +7,7 @@ import Chip from "@mui/material/Chip";
 import { useState } from "react";
 import { useRouter } from 'next/router'
 import Layout from "./layout/layout";
+import dayjs from 'dayjs'
 
 const MovieTitle = styled(Typography)({
   color: "#F1AD3F",
@@ -26,7 +27,7 @@ export default function Home() {
   // const [lang, setLang] = useState('');
 
   const [{ data, loading, error }, refetch] = useAxios(
-    "https://imaginetown.vercel.app/api"
+    "http://localhost:3000/api"
   );
   if (loading) return <p>loding...</p>;
   if (error) return <p>Error...</p>;
@@ -81,7 +82,7 @@ export default function Home() {
                     </a>
                   </Stack>
                   <Stack marginTop={1} marginBottom={1}>
-                    <MovieTitle>{idx.date}</MovieTitle>
+                    <MovieTitle>{dayjs(idx.date).format()}</MovieTitle>
                   </Stack>
                   <Stack>
                     <Name>{idx.name.en}</Name>
