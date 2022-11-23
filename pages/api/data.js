@@ -18,6 +18,7 @@ export default {
       date: new Date('2022/11/23'),
       type: "Cartoon",
       duration: "180 Mins",
+      reserved: ["A1", "B7", "B9"]
     },
     {
       id: "topgun",
@@ -34,6 +35,7 @@ export default {
       date: new Date('2022/12/25'),
       type: "Action",
       duration: "200 Mins",
+      reserved: ["E10", "C10"]
     },
     {
       id: "blackpanther2",
@@ -50,6 +52,7 @@ export default {
       date: new Date('2022/11/30'),
       type: "Action",
       duration: "190 Mins",
+      reserved: ["E1", "E2", "E3", "E5", "E7", "E8", "E9", "E10"]
     },
     {
       id: "dora23",
@@ -66,6 +69,7 @@ export default {
       date: new Date('2022/11/25'),
       type: "Cartoon",
       duration: "180 Mins",
+      reserved: []
     },
     {
       id: "topgun2",
@@ -82,6 +86,7 @@ export default {
       date: new Date('2022/12/05'),
       type: "Action",
       duration: "200 Mins",
+      reserved: []
     },
   ],
   COMING_SOON: [
@@ -100,6 +105,7 @@ export default {
       date: new Date('2022/12/05'),
       type: "Cartoon",
       duration: "150 Mins",
+      reserved: []
     },
   ],
 };

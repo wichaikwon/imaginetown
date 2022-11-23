@@ -15,6 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { ButtonGroup, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import ChairIcon from '@mui/icons-material/Chair'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 export default function MovieDetail() {
   const router = useRouter()
@@ -26,7 +27,6 @@ export default function MovieDetail() {
   // const [isClick, setIsClick] = useState()
 
   const [seats, setSeats] = useState([])
-  console.log(seats)
 
   const handleChangeTime = (e) => {
     const value = e.target.value
@@ -39,12 +39,41 @@ export default function MovieDetail() {
   }
 
   const handleClick = (seat) => {
-    setSeats(seat)
+    // REMARK: Connot modify state value
+    /**
+     * const a = seats
+     * a => seats
+     * const a = [...seats]
+     * a => a
+     */
+    // console.log(chairs)
+    let chairs = []
+    if (!seats.includes(seat)) {
+      chairs = [...seats]
+      chairs.push(seat)
+      setSeats(chairs)
+    } else {
+      seats.filter((check) => {
+        if (check !== seat) {
+          chairs.push(check)
+          setSeats(chairs)
+        }
+      })
+    }
   }
-
   const [{ data, loading, error }, refetch] = useAxios(`http://localhost:3000/api/${id}`)
   if (loading) return <p>loding...</p>
   if (error) return <p>Error...</p>
+
+  const { id: mId, reserved } = data
+  console.log(data)
+
+  /**
+   * [{}]
+   *
+   * {}
+   */
+
 
   return (
     <Layout>
@@ -57,7 +86,6 @@ export default function MovieDetail() {
         }}
       >
         <Stack direction="row" justifyContent="space-between">
-          {/* stack back button */}
           <Button
             href="/"
             sx={{
@@ -70,53 +98,49 @@ export default function MovieDetail() {
           </Button>
         </Stack>
         <Stack>
-          {data.map((idx) => {
-            return (
-              <Stack direction="row" gap={6} key={idx.id}>
-                <Stack>
-                  <img
-                    src={idx.image}
-                    style={{
-                      width: 250,
-                      height: 300,
-                      borderRadius: 10,
-                    }}
-                  />
-                </Stack>
-                <Stack>
-                  <Stack>
-                    <Typography sx={{ color: '#f1ad3f' }}>{idx.date}</Typography>
-                  </Stack>
-                  <Stack>
-                    <Typography>{idx.name.en}</Typography>
-                  </Stack>
-                  <Stack>
-                    <Typography>{idx.description.en}</Typography>
-                  </Stack>
-                  <Stack direction="row">
-                    <Chip
-                      sx={{
-                        background: '#E1E1E7',
-                        borderRadius: 10,
-                        color: '#838388',
-                      }}
-                      label={idx.type}
-                    />
-                    <Chip
-                      sx={{
-                        background: '#E1E1E7',
-                        borderRadius: 10,
-                        color: '#838388',
-                      }}
-                      label={idx.duration}
-                    />
-                  </Stack>
-                </Stack>
+          <Stack direction="row" gap={6}>
+            <Stack>
+              <img
+                src={data.image}
+                style={{
+                  width: 250,
+                  height: 300,
+                  borderRadius: 10,
+                }}
+              />
+            </Stack>
+            <Stack>
+              <Stack>
+                <Typography sx={{ color: '#f1ad3f' }}>{data.date}</Typography>
               </Stack>
-            )
-          })}
+              <Stack>
+                {/* <Typography>{data.name.th}</Typography> */}
+              </Stack>
+              <Stack>
+                {/* <Typography>{data.description.en}</Typography> */}
+              </Stack>
+              <Stack direction="row">
+                <Chip
+                  sx={{
+                    background: '#E1E1E7',
+                    borderRadius: 10,
+                    color: '#838388',
+                  }}
+                  label={data.type}
+                />
+                <Chip
+                  sx={{
+                    background: '#E1E1E7',
+                    borderRadius: 10,
+                    color: '#838388',
+                  }}
+                  label={data.duration}
+                />
+              </Stack>
+            </Stack>
+          </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="space-around" marginTop={5} marginBottom={5}>
+        <Stack direction="row" justifyContent="space-around" marginBottom={5}>
           <ButtonGroup
             variant=""
             fullWidth
@@ -141,6 +165,7 @@ export default function MovieDetail() {
                 <DatePicker
                   sx={{
                     width: 250,
+                    color: '#FFFFFF',
                   }}
                   value={value}
                   onChange={(newValue) => {
@@ -193,7 +218,6 @@ export default function MovieDetail() {
           </Stack>
         </Stack>
         <Stack
-          marginTop={5}
           direction="row"
           flexWrap="wrap"
           alignContent="center"
@@ -209,29 +233,35 @@ export default function MovieDetail() {
 
         <Stack p={4}>
           {['E', 'D', 'C', 'B', 'A'].map((row) => {
+            let r = 0
             return (
-              <Stack key={row} p={1}>
+              <Stack key={row}>
                 <Stack direction="row" gap={3} justifyContent="center" alignItems="center">
                   <Stack>
                     <Typography sx={{ fontWeight: 600 }}>{row}</Typography>
                   </Stack>
                   <Stack direction="row">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((col) => {
+                      let c = 0
+                      let colrow = `${row}${col}`
+                      let available = ''
+                      seats.forEach((seat) => {
+                        if (seat === colrow) return (available = seat === colrow)
+                      })
                       return (
                         <Stack key={col}>
-                          <Button disabled={`${row}${col}` === seats} onClick={() => handleClick(`${row}${col}`)}>
-                            {`${row}${col}`}
+                          <Button onClick={() => handleClick(colrow)}>
+                            {/*
+                              avaliable ? checked ? checked : green : red
+                             */}
+
+                            {available ? (
+                              <CheckCircleIcon sx={{ color: '#D1A154', fontSize: 24 }} />
+                            ) : (
+                              <ChairIcon sx={{ color: '#3B8824', fontSize: 32 }} />
+                            )}
                           </Button>
                         </Stack>
-                        // <Stack key={col}>
-                        //   <Button
-                        //   onClick={() => isClick === false ? setIsClick(true) : setIsClick(false)}
-                        //   sx={{
-                        //     color: isClick === false ? '#D0382D' : '#3B8824'
-                        //   }}>
-                        //     <ChairIcon />
-                        //   </Button>
-                        // </Stack>
                       )
                     })}
                   </Stack>
@@ -243,17 +273,13 @@ export default function MovieDetail() {
             )
           })}
         </Stack>
-        <Stack marginTop={2}>
+        <Stack>
           <Divider color="#D9D9D9"></Divider>
         </Stack>
-        <Stack direction="row" justifyContent="center" marginTop={2}>
+        <Stack direction="row" justifyContent="center">
           <Typography>SUMMARY</Typography>
         </Stack>
-        {data.map((idx) => {
-          return (
             <Stack
-              key={idx.id}
-              marginTop={2}
               direction="row"
               gap={1}
               justifyContent="space-between"
@@ -268,24 +294,24 @@ export default function MovieDetail() {
                   borderRadius: 10,
                 }}
               >
-                <img src={idx.image} width={150} />
+                <img src={data.image} width={150} />
               </Stack>
               <Stack justifyContent="center">
                 <Stack direction="row" gap={1} justifyContent="space-between">
-                  <Stack>{idx.name.en}</Stack>
+                  {/* <Stack>{data.name.en}</Stack> */}
                 </Stack>
                 <Stack direction="row" gap={1}>
-                  <Stack marginTop={2}>
+                  <Stack>
                     <Stack direction="row" gap={4} justifyContent="space-between">
                       <Stack>Show Time</Stack>
                       <Stack>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
                       <Stack>Theatre : {theatre ? theatre : '-'}</Stack>
                     </Stack>
-                    <Stack marginTop={1}>Seats: -</Stack>
+                    <Stack>Seats: -</Stack>
                   </Stack>
-                  <Stack marginTop={2} direction="column">
+                  <Stack direction="column">
                     <Stack>Time: {time ? time : '-'}</Stack>
-                    <Stack marginTop={1}>Total Price: -</Stack>
+                    <Stack>Total Price: -</Stack>
                   </Stack>
                 </Stack>
               </Stack>
@@ -302,8 +328,6 @@ export default function MovieDetail() {
                 </Button>
               </Stack>
             </Stack>
-          )
-        })}
       </Stack>
     </Layout>
   )
