@@ -39,14 +39,6 @@ export default function MovieDetail() {
   }
 
   const handleClick = (seat) => {
-    // REMARK: Connot modify state value
-    /**
-     * const a = seats
-     * a => seats
-     * const a = [...seats]
-     * a => a
-     */
-    // console.log(chairs)
     let chairs = []
     if (!seats.includes(seat)) {
       chairs = [...seats]
@@ -60,21 +52,13 @@ export default function MovieDetail() {
         }
       })
     }
+    setSeats(chairs)
   }
   const [{ data, loading, error }, refetch] = useAxios(`http://localhost:3000/api/${id}`)
   if (loading) return <p>loding...</p>
   if (error) return <p>Error...</p>
 
   const { id: mId, reserved } = data
-  console.log(data)
-
-  /**
-   * [{}]
-   *
-   * {}
-   */
-
-
   return (
     <Layout>
       <Stack
@@ -82,7 +66,8 @@ export default function MovieDetail() {
         sx={{
           backgroundColor: '#FFFFFF1A',
           color: '#FFFF',
-          height: '150vh',
+          height: '100vh',
+          minHeight: '100%',
         }}
       >
         <Stack direction="row" justifyContent="space-between">
@@ -113,12 +98,8 @@ export default function MovieDetail() {
               <Stack>
                 <Typography sx={{ color: '#f1ad3f' }}>{data.date}</Typography>
               </Stack>
-              <Stack>
-                {/* <Typography>{data.name.th}</Typography> */}
-              </Stack>
-              <Stack>
-                {/* <Typography>{data.description.en}</Typography> */}
-              </Stack>
+              <Stack>{/* <Typography>{data.name.th}</Typography> */}</Stack>
+              <Stack>{/* <Typography>{data.description.en}</Typography> */}</Stack>
               <Stack direction="row">
                 <Chip
                   sx={{
@@ -233,7 +214,6 @@ export default function MovieDetail() {
 
         <Stack p={4}>
           {['E', 'D', 'C', 'B', 'A'].map((row) => {
-            let r = 0
             return (
               <Stack key={row}>
                 <Stack direction="row" gap={3} justifyContent="center" alignItems="center">
@@ -242,7 +222,6 @@ export default function MovieDetail() {
                   </Stack>
                   <Stack direction="row">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((col) => {
-                      let c = 0
                       let colrow = `${row}${col}`
                       let available = ''
                       seats.forEach((seat) => {
@@ -279,55 +258,55 @@ export default function MovieDetail() {
         <Stack direction="row" justifyContent="center">
           <Typography>SUMMARY</Typography>
         </Stack>
-            <Stack
-              direction="row"
-              gap={1}
-              justifyContent="space-between"
-              sx={{
-                border: 1,
-                borderRadius: 10,
-              }}
-              p={3}
-            >
-              <Stack
-                sx={{
-                  borderRadius: 10,
-                }}
-              >
-                <img src={data.image} width={150} />
-              </Stack>
-              <Stack justifyContent="center">
-                <Stack direction="row" gap={1} justifyContent="space-between">
-                  {/* <Stack>{data.name.en}</Stack> */}
+        <Stack
+          direction="row"
+          gap={1}
+          justifyContent="space-between"
+          sx={{
+            border: 1,
+            borderRadius: 10,
+          }}
+          p={3}
+        >
+          <Stack
+            sx={{
+              borderRadius: 10,
+            }}
+          >
+            <img src={data.image} width={150} />
+          </Stack>
+          <Stack justifyContent="center">
+            <Stack direction="row" gap={1} justifyContent="space-between">
+              {/* <Stack>{data.name.en}</Stack> */}
+            </Stack>
+            <Stack direction="row" gap={1}>
+              <Stack>
+                <Stack direction="row" gap={4} justifyContent="space-between">
+                  <Stack>Show Time</Stack>
+                  <Stack>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
+                  <Stack>Theatre : {theatre ? theatre : '-'}</Stack>
                 </Stack>
-                <Stack direction="row" gap={1}>
-                  <Stack>
-                    <Stack direction="row" gap={4} justifyContent="space-between">
-                      <Stack>Show Time</Stack>
-                      <Stack>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
-                      <Stack>Theatre : {theatre ? theatre : '-'}</Stack>
-                    </Stack>
-                    <Stack>Seats: -</Stack>
-                  </Stack>
-                  <Stack direction="column">
-                    <Stack>Time: {time ? time : '-'}</Stack>
-                    <Stack>Total Price: -</Stack>
-                  </Stack>
-                </Stack>
+                <Stack>Seats: -</Stack>
               </Stack>
-              <Stack justifyContent="center">
-                <Button
-                  sx={{
-                    border: 1,
-                    borderRadius: 3,
-                    width: 200,
-                    color: '#FFFF',
-                  }}
-                >
-                  Buy now
-                </Button>
+              <Stack direction="column">
+                <Stack>Time: {time ? time : '-'}</Stack>
+                <Stack>Total Price: -</Stack>
               </Stack>
             </Stack>
+          </Stack>
+          <Stack justifyContent="center">
+            <Button
+              sx={{
+                border: 1,
+                borderRadius: 3,
+                width: 200,
+                color: '#FFFF',
+              }}
+            >
+              Buy now
+            </Button>
+          </Stack>
+        </Stack>
       </Stack>
     </Layout>
   )

@@ -18,7 +18,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const Layout = ({ children }) => {
     return (
         <Box
-            height="200vh"
+            height="100vh"
+            minHeight="100%"
             sx={{
                 background:
                     "linear-gradient(123.95deg, rgba(0, 0, 0, 0.9) 12.92%, rgba(131, 0, 0, 0.9) 87%)",
