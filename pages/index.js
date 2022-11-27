@@ -85,7 +85,7 @@ export default function Home() {
                     <MovieTitle>{dayjs(idx.date).format()}</MovieTitle>
                   </Stack>
                   <Stack>
-                    <Name>{idx.name.en}</Name>
+                    <Name>{idx.en}</Name>
                   </Stack>
                   <Stack>
                     {/* <Name>{idx.name.th}</Name> */}

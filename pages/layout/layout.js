@@ -18,7 +18,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 const Layout = ({ children }) => {
     return (
         <Box
-            height="100vh"
+            height="200vh"
             minHeight="100%"
             sx={{
                 background:

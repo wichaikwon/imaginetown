@@ -16,6 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { ButtonGroup, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import ChairIcon from '@mui/icons-material/Chair'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import { border, borderColor, borderRadius } from '@mui/system'
 
 export default function MovieDetail() {
   const router = useRouter()
@@ -66,11 +67,11 @@ export default function MovieDetail() {
         sx={{
           backgroundColor: '#FFFFFF1A',
           color: '#FFFF',
-          height: '100vh',
+          height: '200vh',
           minHeight: '100%',
         }}
       >
-        <Stack direction="row" justifyContent="space-between">
+        <Stack direction="row">
           <Button
             href="/"
             sx={{
@@ -82,25 +83,29 @@ export default function MovieDetail() {
             Back
           </Button>
         </Stack>
-        <Stack>
-          <Stack direction="row" gap={6}>
-            <Stack>
-              <img
-                src={data.image}
-                style={{
-                  width: 250,
-                  height: 300,
-                  borderRadius: 10,
-                }}
-              />
+        <Stack direction="row" gap={6}>
+          <Stack>
+            <img
+              src={data.image}
+              style={{
+                width: 250,
+                height: 350,
+                borderRadius: 10,
+              }}
+            />
+          </Stack>
+          <Stack>
+            <Stack p={1}>
+              <Typography sx={{ color: '#f1ad3f' }}>{data.date}</Typography>
             </Stack>
-            <Stack>
-              <Stack>
-                <Typography sx={{ color: '#f1ad3f' }}>{data.date}</Typography>
-              </Stack>
-              <Stack>{/* <Typography>{data.name.th}</Typography> */}</Stack>
-              <Stack>{/* <Typography>{data.description.en}</Typography> */}</Stack>
-              <Stack direction="row">
+            <Stack p={1}>
+              <Typography>{data.en}</Typography>
+            </Stack>
+            <Stack p={1}>
+              <Typography>{data.enDescription}</Typography>
+            </Stack>
+            <Stack p={2}>
+              <Stack direction="row" gap={1}>
                 <Chip
                   sx={{
                     background: '#E1E1E7',
@@ -121,24 +126,28 @@ export default function MovieDetail() {
             </Stack>
           </Stack>
         </Stack>
-        <Stack direction="row" justifyContent="space-around" marginBottom={5}>
-          <ButtonGroup
-            variant=""
-            fullWidth
-            aria-label="outlined button group"
-            sx={{
-              border: 1,
-              borderRadius: 10,
-            }}
-          >
-            <Button>One</Button>
-            <Button>Two</Button>
-            <Button>Three</Button>
+        <Stack direction="row" justifyContent="space-around" marginTop={4} marginBottom={2}>
+          <ButtonGroup fullWidth size="large" aria-label="large button group">
+            <Button
+              sx={{ borderColor: '#D9D9D9', color: '#000000', backgroundColor: '#FFFFFF', textTransform: 'none' }}
+            >
+              Select Show time
+            </Button>
+            <Button
+              sx={{ borderColor: '#D9D9D9', color: '#000000', backgroundColor: '#FFFFFF', textTransform: 'none' }}
+            >
+              Select Seats
+            </Button>
+            <Button
+              sx={{ borderColor: '#D9D9D9', color: '#000000', backgroundColor: '#FFFFFF', textTransform: 'none' }}
+            >
+              Buy
+            </Button>
           </ButtonGroup>
         </Stack>
-        <Stack direction="row" flexWrap="wrap" gap={4} justifyContent="space-between">
+        <Stack direction="row" flexWrap="wrap" justifyContent="space-between">
           <Stack>
-            <Stack flexWrap="wrap" alignContent="center">
+            <Stack flexWrap="wrap" alignContent="center" m={1}>
               Select Date
             </Stack>
             <Stack>
@@ -146,7 +155,8 @@ export default function MovieDetail() {
                 <DatePicker
                   sx={{
                     width: 250,
-                    color: '#FFFFFF',
+                    borderColor: '#FFFF',
+                    color: '#FFFF',
                   }}
                   value={value}
                   onChange={(newValue) => {
@@ -158,7 +168,7 @@ export default function MovieDetail() {
             </Stack>
           </Stack>
           <Stack>
-            <Stack flexWrap="wrap" alignContent="center">
+            <Stack flexWrap="wrap" alignContent="center" m={1}>
               Select Theatre
             </Stack>
             <FormControl fullWidth>
@@ -170,6 +180,7 @@ export default function MovieDetail() {
                 onChange={handleChange}
                 sx={{
                   width: 250,
+                  color: '#FFFFFF',
                 }}
               >
                 <MenuItem value={'theatre1'}>Theatre1</MenuItem>
@@ -178,7 +189,7 @@ export default function MovieDetail() {
             </FormControl>
           </Stack>
           <Stack>
-            <Stack flexWrap="wrap" alignContent="center">
+            <Stack flexWrap="wrap" alignContent="center" m={1}>
               Select Time
             </Stack>
             <FormControl fullWidth>
@@ -190,6 +201,7 @@ export default function MovieDetail() {
                 onChange={handleChangeTime}
                 sx={{
                   width: 250,
+                  color: '#FFFFFF',
                 }}
               >
                 <MenuItem value={'11:00'}>11:00</MenuItem>
@@ -200,19 +212,17 @@ export default function MovieDetail() {
         </Stack>
         <Stack
           direction="row"
-          flexWrap="wrap"
-          alignContent="center"
           justifyContent="center"
           sx={{
             background: '#D1A154',
             fontSize: 25,
-            height: 30,
           }}
+          marginTop={6}
         >
           <Typography>SCREEN</Typography>
         </Stack>
 
-        <Stack p={4}>
+        <Stack m={2}>
           {['E', 'D', 'C', 'B', 'A'].map((row) => {
             return (
               <Stack key={row}>
@@ -230,10 +240,6 @@ export default function MovieDetail() {
                       return (
                         <Stack key={col}>
                           <Button onClick={() => handleClick(colrow)}>
-                            {/*
-                              avaliable ? checked ? checked : green : red
-                             */}
-
                             {available ? (
                               <CheckCircleIcon sx={{ color: '#D1A154', fontSize: 24 }} />
                             ) : (
@@ -255,13 +261,12 @@ export default function MovieDetail() {
         <Stack>
           <Divider color="#D9D9D9"></Divider>
         </Stack>
-        <Stack direction="row" justifyContent="center">
+        <Stack direction="row" justifyContent="center" m={1}>
           <Typography>SUMMARY</Typography>
         </Stack>
         <Stack
           direction="row"
-          gap={1}
-          justifyContent="space-between"
+          justifyContent="space-evenly"
           sx={{
             border: 1,
             borderRadius: 10,
@@ -273,24 +278,34 @@ export default function MovieDetail() {
               borderRadius: 10,
             }}
           >
-            <img src={data.image} width={150} />
+            <img
+              src={data.image}
+              style={{
+                width: 150,
+                borderRadius: 10,
+              }}
+            />
           </Stack>
           <Stack justifyContent="center">
-            <Stack direction="row" gap={1} justifyContent="space-between">
-              {/* <Stack>{data.name.en}</Stack> */}
+            <Stack direction="row" justifyContent="space-between">
+              <Stack p={1}>
+                <Typography>{data.en}</Typography>
+              </Stack>
             </Stack>
             <Stack direction="row" gap={1}>
               <Stack>
-                <Stack direction="row" gap={4} justifyContent="space-between">
-                  <Stack>Show Time</Stack>
-                  <Stack>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
-                  <Stack>Theatre : {theatre ? theatre : '-'}</Stack>
+                <Stack direction="row" justifyContent="space-between">
+                  <Stack p={1}>Show Time</Stack>
+                  <Stack p={1}>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
+                  <Stack p={1}>Theatre : {theatre ? theatre : '-'}</Stack>
                 </Stack>
-                <Stack>Seats: -</Stack>
+                <Stack flexWrap="wrap" p={1}>
+                  Seats: {seats ? seats.sort() + ',' : '-'}
+                </Stack>
               </Stack>
               <Stack direction="column">
-                <Stack>Time: {time ? time : '-'}</Stack>
-                <Stack>Total Price: -</Stack>
+                <Stack p={1}>Time: {time ? time : '-'}</Stack>
+                <Stack p={1}>Total Price: { seats ? seats.length *300 : '-'}</Stack>
               </Stack>
             </Stack>
           </Stack>
