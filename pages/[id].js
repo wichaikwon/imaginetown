@@ -16,7 +16,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { ButtonGroup, Divider, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import ChairIcon from '@mui/icons-material/Chair'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { border, borderColor, borderRadius } from '@mui/system'
+import { Description } from '@mui/icons-material'
 
 export default function MovieDetail() {
   const router = useRouter()
@@ -25,8 +25,6 @@ export default function MovieDetail() {
   const [value, setValue] = useState()
   const [theatre, setTheatre] = useState()
   const [time, setTime] = useState()
-  // const [isClick, setIsClick] = useState()
-
   const [seats, setSeats] = useState([])
 
   const handleChangeTime = (e) => {
@@ -96,13 +94,13 @@ export default function MovieDetail() {
           </Stack>
           <Stack>
             <Stack p={1}>
-              <Typography sx={{ color: '#f1ad3f' }}>{data.date}</Typography>
+              <Typography sx={{ color: '#f1ad3f' }}>{dayjs(data.date).format('DD MMM YYYY')}</Typography>
             </Stack>
             <Stack p={1}>
-              <Typography>{data.en}</Typography>
+              <Typography>{data[router.locale]}</Typography>
             </Stack>
             <Stack p={1}>
-              <Typography>{data.enDescription}</Typography>
+              <Typography>{data[`${router.locale}Description`]}</Typography>
             </Stack>
             <Stack p={2}>
               <Stack direction="row" gap={1}>
@@ -134,12 +132,21 @@ export default function MovieDetail() {
               Select Show time
             </Button>
             <Button
-              sx={{ borderColor: '#D9D9D9', color: '#000000', backgroundColor: '#FFFFFF', textTransform: 'none' }}
+              sx={{
+                borderColor: '#D9D9D9',
+                color: theatre ? '#000000' : '#ffff',
+                backgroundColor: theatre ? '#ffff' : '#0000000',
+                textTransform: 'none',
+              }}
             >
               Select Seats
             </Button>
             <Button
-              sx={{ borderColor: '#D9D9D9', color: '#000000', backgroundColor: '#FFFFFF', textTransform: 'none' }}
+              sx={{
+                borderColor: '#D9D9D9',
+                color: '#ffff',
+                textTransform: 'none',
+              }}
             >
               Buy
             </Button>
@@ -183,8 +190,8 @@ export default function MovieDetail() {
                   color: '#FFFFFF',
                 }}
               >
-                <MenuItem value={'theatre1'}>Theatre1</MenuItem>
-                <MenuItem value={'theatre2'}>Theatre2</MenuItem>
+                <MenuItem value="theatre1">Theatre1</MenuItem>
+                <MenuItem value="theatre2">Theatre2</MenuItem>
               </Select>
             </FormControl>
           </Stack>
@@ -210,116 +217,118 @@ export default function MovieDetail() {
             </FormControl>
           </Stack>
         </Stack>
-        <Stack
-          direction="row"
-          justifyContent="center"
-          sx={{
-            background: '#D1A154',
-            fontSize: 25,
-          }}
-          marginTop={6}
-        >
-          <Typography>SCREEN</Typography>
-        </Stack>
+        <Stack sx={{ display: time === undefined || theatre === undefined || value === undefined ? 'none' : '' }}>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            sx={{
+              background: '#D1A154',
+              fontSize: 25,
+            }}
+            marginTop={6}
+          >
+            <Typography>SCREEN</Typography>
+          </Stack>
 
-        <Stack m={2}>
-          {['E', 'D', 'C', 'B', 'A'].map((row) => {
-            return (
-              <Stack key={row}>
-                <Stack direction="row" gap={3} justifyContent="center" alignItems="center">
-                  <Stack>
-                    <Typography sx={{ fontWeight: 600 }}>{row}</Typography>
-                  </Stack>
-                  <Stack direction="row">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((col) => {
-                      let colrow = `${row}${col}`
-                      let available = ''
-                      seats.forEach((seat) => {
-                        if (seat === colrow) return (available = seat === colrow)
-                      })
-                      return (
-                        <Stack key={col}>
-                          <Button onClick={() => handleClick(colrow)}>
-                            {available ? (
-                              <CheckCircleIcon sx={{ color: '#D1A154', fontSize: 24 }} />
-                            ) : (
-                              <ChairIcon sx={{ color: '#3B8824', fontSize: 32 }} />
-                            )}
-                          </Button>
-                        </Stack>
-                      )
-                    })}
-                  </Stack>
-                  <Stack>
-                    <Typography sx={{ fontWeight: 600 }}>{row}</Typography>
+          <Stack m={2}>
+            {['E', 'D', 'C', 'B', 'A'].map((row) => {
+              return (
+                <Stack key={row}>
+                  <Stack direction="row" gap={3} justifyContent="center" alignItems="center">
+                    <Stack>
+                      <Typography sx={{ fontWeight: 600 }}>{row}</Typography>
+                    </Stack>
+                    <Stack direction="row">
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((col) => {
+                        let colrow = `${row}${col}`
+                        let available = ''
+                        seats.forEach((seat) => {
+                          if (seat === colrow) return (available = seat === colrow)
+                        })
+                        return (
+                          <Stack key={col}>
+                            <Button onClick={() => handleClick(colrow)}>
+                              {available ? (
+                                <CheckCircleIcon sx={{ color: '#D1A154', fontSize: 24 }} />
+                              ) : (
+                                <ChairIcon sx={{ color: '#3B8824', fontSize: 32 }} />
+                              )}
+                            </Button>
+                          </Stack>
+                        )
+                      })}
+                    </Stack>
+                    <Stack>
+                      <Typography sx={{ fontWeight: 600 }}>{row}</Typography>
+                    </Stack>
                   </Stack>
                 </Stack>
-              </Stack>
-            )
-          })}
-        </Stack>
-        <Stack>
-          <Divider color="#D9D9D9"></Divider>
-        </Stack>
-        <Stack direction="row" justifyContent="center" m={1}>
-          <Typography>SUMMARY</Typography>
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          sx={{
-            border: 1,
-            borderRadius: 10,
-          }}
-          p={3}
-        >
+              )
+            })}
+          </Stack>
+          <Stack>
+            <Divider color="#D9D9D9"></Divider>
+          </Stack>
+          <Stack direction="row" justifyContent="center" m={1}>
+            <Typography>SUMMARY</Typography>
+          </Stack>
           <Stack
+            direction="row"
+            justifyContent="space-evenly"
             sx={{
+              border: 1,
               borderRadius: 10,
             }}
+            p={3}
           >
-            <img
-              src={data.image}
-              style={{
-                width: 150,
+            <Stack
+              sx={{
                 borderRadius: 10,
               }}
-            />
-          </Stack>
-          <Stack justifyContent="center">
-            <Stack direction="row" justifyContent="space-between">
-              <Stack p={1}>
-                <Typography>{data.en}</Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" gap={1}>
-              <Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Stack p={1}>Show Time</Stack>
-                  <Stack p={1}>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
-                  <Stack p={1}>Theatre : {theatre ? theatre : '-'}</Stack>
-                </Stack>
-                <Stack flexWrap="wrap" p={1}>
-                  Seats: {seats ? seats.sort() + ',' : '-'}
-                </Stack>
-              </Stack>
-              <Stack direction="column">
-                <Stack p={1}>Time: {time ? time : '-'}</Stack>
-                <Stack p={1}>Total Price: { seats ? seats.length *300 : '-'}</Stack>
-              </Stack>
-            </Stack>
-          </Stack>
-          <Stack justifyContent="center">
-            <Button
-              sx={{
-                border: 1,
-                borderRadius: 3,
-                width: 200,
-                color: '#FFFF',
-              }}
             >
-              Buy now
-            </Button>
+              <img
+                src={data.image}
+                style={{
+                  width: 150,
+                  borderRadius: 10,
+                }}
+              />
+            </Stack>
+            <Stack justifyContent="center">
+              <Stack direction="row" justifyContent="space-between">
+                <Stack p={1}>
+                  <Typography>{data.en}</Typography>
+                </Stack>
+              </Stack>
+              <Stack direction="row" gap={1}>
+                <Stack>
+                  <Stack direction="row" justifyContent="space-between">
+                    <Stack p={1}>Show Time</Stack>
+                    <Stack p={1}>Date : {value ? dayjs(new Date(value)).format('DD/MM/YYYY') : '-'}</Stack>
+                    <Stack p={1}>Theatre : {theatre ? theatre : '-'}</Stack>
+                  </Stack>
+                  <Stack flexWrap="wrap" p={1}>
+                    Seats: {seats.length > 0 ? seats.sort() + ',' : '-'}
+                  </Stack>
+                </Stack>
+                <Stack direction="column">
+                  <Stack p={1}>Time: {time ? time : '-'}</Stack>
+                  <Stack p={1}>Total Price: {seats ? seats.length * 300 : '-'}</Stack>
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack justifyContent="center">
+              <Button
+                sx={{
+                  border: 1,
+                  borderRadius: 3,
+                  width: 200,
+                  color: '#FFFF',
+                }}
+              >
+                Buy now
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>

@@ -95,7 +95,7 @@ export default {
     {
       id: 'red',
       image:
-        'https://static.wikia.nocookie.net/onepiece/images/3/34/One_Piece_Film_Red_Poster_Visual.png/revision/latest?cb=20220608181914',
+        'https://animeanime.jp/imgs/p/jtKDOVlKAvjRrNw8SXAVejagI61Nrq_oqaqr/503453.jpg',
 
       en: 'One Piece Film: Red',
       th: 'วันพีซ ฟิล์ม เรด',
